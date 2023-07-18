@@ -121,6 +121,7 @@ app.post("/pay", (req, res) => {
       loginUser(phoneNumber, name, (isLoggedIn) => {
         if (isLoggedIn) {
           response = `CON Welcome, ${name}!\nPlease select an option:\n1. Make Payment\n2. Request Loan\n3. View Contribution`;
+        
         } else {
           response = "END Invalid login credentials.";
         }
@@ -130,9 +131,45 @@ app.post("/pay", (req, res) => {
       return; // Return early to avoid sending the response twice
     }
   } else if (text === '3') {
-    response = "END Terms and Conditions:\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut nulla ac enim scelerisque vestibulum ac nec nisl.";
+
+    function sendSms() {
+      console.log("wwwww");
+      const options = {
+        to: phoneNumber,
+        message:
+        "Chama App Terms and Conditions:1.Membership: Eligibility: Membership is open to individuals aged 18 years and above who reside within the local community.2.Contributions: Monthly Contributions: Each member is required to contribute a fixed amount of $10 every month." };
+      sms
+        .send(options)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    sendSms();    
+
+    response = "END You will get a message about our Terms and Conditions";
   } else if (text === '4') {
-    response = "END About Us:\n\nChama App is a revolutionary platform that aims to simplify financial transactions and empower individuals in managing their contributions and loans within a chama.";
+
+    function sendSms() {
+      console.log("wwwww");
+      const options = {
+        to: phoneNumber,
+        message:
+          "Chama App is a revolutionary platform that aims to simplify financial transactions and empower individuals in managing their contributions and loans within a chama."   };
+      
+      sms
+        .send(options)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    sendSms();
+    response = "END You will get an sms About Us:";
   } else {
     response = "END Invalid input. Please try again.";
   }
