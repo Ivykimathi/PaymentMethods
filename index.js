@@ -133,7 +133,7 @@ app.post("/pay", (req, res) => {
     }
     sendSms();    
 
-    response = "END Terms and Conditions:\n\n";
+    response = "END You will get a message about our Terms and Conditions";
   } else if (text === '4') {
 
     function sendSms() {
@@ -153,7 +153,7 @@ app.post("/pay", (req, res) => {
         });
     }
     sendSms();
-    response = "END You will get an sms About Us:\n\n";
+    response = "END You will get an sms About Us:";
   } else {
     response = "END Invalid input. Please try again.";
   }
