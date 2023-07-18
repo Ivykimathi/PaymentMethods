@@ -1,6 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
+const AfricasTalking = require('africastalking');
+
+const app = express();
+const PORT = 5000;
+
+const credentials = {
+  apiKey: "c9e2c70a7dc95be18034dbb43cf11798c88d3b1870c9345821236dc098603b03",
+  username: "dynos",
+};
+const africastalking = AfricasTalking(credentials);
+const sms = africastalking.SMS;
 
 const pool = mysql.createPool({
   host: 'localhost',
@@ -9,16 +20,6 @@ const pool = mysql.createPool({
   database: 'paymentmethods', // Update with your database name
   connectionLimit: 20
 });
-
-const app = express();
-const PORT = 5504;
-
-const credentials = {
-  apiKey: "93eb8d8a43052e73dfda8c70a00acf774c29ed397545339ccb2fe10f65772da7",
-  username: "goodxy",
-};
-const AfricasTalking = require('africastalking')(credentials);
-const sms = AfricasTalking.SMS;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -43,6 +44,21 @@ function insertUserData(name, phoneNumber) {
     console.log('Data inserted successfully!');
     console.log('Results:', results); // Output the results to the console
     console.log('Fields:', fields); // Output the fields to the console
+
+    // Send registration success message
+    const message = `Dear ${name}, your registration was successful. Welcome to Chama App!`;
+    const options = {
+      to: phoneNumber, // Recipient's phone number
+      message: message,
+    };
+
+    sms.send(options)
+      .then(response => {
+        console.log('Message sent successfully:', response);
+      })
+      .catch(error => {
+        console.error('Error sending message:', error);
+      });
   });
 }
 
@@ -154,6 +170,3 @@ app.post("/actions", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-module.exports.app = app;
-module.exports.counter = counter;
