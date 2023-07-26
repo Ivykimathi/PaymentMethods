@@ -4,11 +4,11 @@ const mysql = require('mysql2');
 const AfricasTalking = require('africastalking');
 
 const app = express();
-const PORT = 5000;
+const PORT = 5504;
 
 const credentials = {
-  apiKey: "c9e2c70a7dc95be18034dbb43cf11798c88d3b1870c9345821236dc098603b03",
-  username: "dynos",
+  apiKey: "7f52f27138552504ea296e122dabb89b256d7ea47fc1c4baeac2abea26b9ee0e",
+  username: "goodxy",
 };
 const africastalking = AfricasTalking(credentials);
 const sms = africastalking.SMS;
@@ -185,7 +185,7 @@ app.post("/actions", (req, res) => {
   let response = "";
 
   if (text === '1') {
-    response = `CON Select payment amount:
+    response = `CON Select Payment Amount:
       1. 200
       2. 500`;
   } else if (text === '2') {
